@@ -1,7 +1,25 @@
 import requests, datetime, time, threading
+from termcolor import colored, cprint
 
 metarUrl = "http://wx.ivao.aero/metar.php"
 testing = False
+
+# This basically prints stuff and displays it in terminal.
+def printStuff(col, aerodrome, altimeter):
+    cprint(aerodrome + " QNH:" + altimeter, col, attrs=['bold'])
+
+#
+def printQNH():
+    with open("metar.txt", "r") as f:
+        for items in f:
+            if items.startswith("ES"):
+                apAltimeterIndex = items.find("Q1") or items.find("Q0")
+                apAltimeterIndex = apAltimeterIndex + 1
+                apAltimeterIndexEnd = apAltimeterIndex + 4
+                QNH = items[apAltimeterIndex:apAltimeterIndexEnd]
+
+                printStuff("green", items[0:4], str(QNH))
+    f.close()
 
 def metarRequest():
     r = requests.get(metarUrl)
@@ -88,4 +106,7 @@ t1 = threading.Thread(target=WhenToRequest)
 
 t1.start()        
 
-## testing
+## TODO
+## COMPARE OLD QNH WITH NEW QNH, AND DISPLAY RED COLOR
+## SOMEWAY TO ACKNOWLEDGE THAT THERE HAS BEEN A NEW QNH, EITHER BY WRITING OR BY CLICKING.
+## 
