@@ -63,7 +63,7 @@ def WhenToRequest():
 
 # Used later for when to see for how long program has waited to run this.
     i = 1
-    
+
 # While PC time is less then requestedTime => sleep 10 seconds => IF the statement is more => We request new METAR.
 # The PC time is requested every 10 seconds to get a updated time.
 # A thread is used here so we can still do stuff at the same with another thread if we really want to.
@@ -87,3 +87,5 @@ def WhenToRequest():
 t1 = threading.Thread(target=WhenToRequest)  
 
 t1.start()        
+
+## testing
